@@ -1,25 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import images from '../data/galleryImages'
 
 const Gallery = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.06,
-      },
-    },
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % images.length)
   }
 
-  const itemVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.5 },
-    },
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
+  }
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index)
   }
 
   return (
@@ -41,35 +36,74 @@ const Gallery = () => {
           </p>
         </motion.div>
 
-        {/* Gallery grid: small frames that expand on hover */}
+        {/* Slideshow */}
         <motion.div
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 lg:gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
+          className="relative w-full max-w-4xl mx-auto"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
         >
-          {images.map((src, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              className="relative group overflow-hidden rounded-lg"
-            >
-              <div className="w-full aspect-square bg-slate-900 rounded-lg shadow-lg transition-transform duration-400 transform-gpu group-hover:scale-110">
-                <img
-                  src={src}
-                  alt={`memory-${index + 1}`}
-                  className="w-full h-full object-cover rounded-lg block"
-                  loading="lazy"
-                />
-                {/* subtle glow */}
-                <div className="absolute inset-0 pointer-events-none rounded-lg bg-gradient-to-t from-transparent to-blue-500/8 opacity-0 group-hover:opacity-80 transition-opacity duration-300"></div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+          {/* Main image display */}
+          <motion.div
+            key={currentIndex}
+            className="relative w-full aspect-video bg-slate-900 rounded-lg shadow-2xl overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <img
+              src={images[currentIndex]}
+              alt={`memory-${currentIndex + 1}`}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+            {/* Glow overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-blue-500/20 to-transparent pointer-events-none"></div>
+          </motion.div>
 
-        {/* (instructional note removed) */}
+          {/* Navigation buttons */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 bg-blue-500/50 hover:bg-blue-500/80 text-white p-3 rounded-full transition-all duration-300 z-10"
+            aria-label="Previous slide"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 bg-blue-500/50 hover:bg-blue-500/80 text-white p-3 rounded-full transition-all duration-300 z-10"
+            aria-label="Next slide"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          {/* Thumbnails/Dots */}
+          <div className="mt-8 flex justify-center gap-2 flex-wrap">
+            {images.map((_, index) => (
+              <motion.button
+                key={index}
+                onClick={() => goToSlide(index)}
+                whileHover={{ scale: 1.2 }}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex
+                    ? 'bg-blue-400 w-8'
+                    : 'bg-blue-200/50 hover:bg-blue-300/70'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          {/* Counter */}
+          <div className="mt-4 text-center text-blue-200/70 text-sm">
+            {currentIndex + 1} / {images.length}
+          </div>
+        </motion.div>
       </div>
     </section>
   )
