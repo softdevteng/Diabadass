@@ -1,56 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
+import images from '../data/galleryImages'
 
 const Gallery = () => {
-  const images = [
-    {
-      id: 1,
-      title: 'A Moment of Peace',
-      description: 'Finding calm in the storm',
-    },
-    {
-      id: 2,
-      title: 'Strength Within',
-      description: 'The quiet power of resilience',
-    },
-    {
-      id: 3,
-      title: 'Light Keeper',
-      description: 'Shining through every challenge',
-    },
-    {
-      id: 4,
-      title: 'Grace Unbroken',
-      description: 'Beauty in every step',
-    },
-    {
-      id: 5,
-      title: 'Forever Rising',
-      description: 'Soaring beyond boundaries',
-    },
-    {
-      id: 6,
-      title: 'Heart of Gold',
-      description: 'Love radiating from within',
-    },
-  ]
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.06,
       },
     },
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
+    hidden: { opacity: 0, scale: 0.95 },
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.6 },
+      transition: { duration: 0.5 },
     },
   }
 
@@ -59,10 +27,10 @@ const Gallery = () => {
       <div className="max-w-6xl mx-auto">
         {/* Section title */}
         <motion.div
-          className="text-center mb-20"
-          initial={{ opacity: 0, y: 20 }}
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
           <h2 className="text-4xl md:text-5xl font-bold font-serif gradient-text mb-4">
@@ -73,74 +41,44 @@ const Gallery = () => {
           </p>
         </motion.div>
 
-        {/* Gallery grid */}
+        {/* Gallery grid: small frames that expand on hover */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 lg:gap-6"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
+          viewport={{ once: true, margin: '-80px' }}
         >
-          {images.map((image, index) => (
+          {images.map((src, index) => (
             <motion.div
-              key={image.id}
+              key={index}
               variants={itemVariants}
-              whileHover={{ rotateZ: 2, y: -10 }}
-              className="group cursor-pointer"
+              className="relative group overflow-hidden rounded-lg"
             >
-              {/* Polaroid card */}
-              <div className="bg-white p-3 rounded-lg shadow-2xl transform transition-transform duration-300 group-hover:shadow-2xl"
-                style={{
-                  boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
-                  perspective: '1000px',
-                }}
-              >
-                {/* Image placeholder with blue gradient */}
-                <motion.div
-                  className="w-full aspect-square bg-gradient-to-br from-blue-400/30 via-cyan-400/20 to-blue-500/30 rounded-sm relative overflow-hidden group-hover:from-blue-400/50 group-hover:via-cyan-400/40 group-hover:to-blue-500/50 transition-all duration-300"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  {/* Glowing border effect */}
-                  <div className="absolute inset-0 border-2 border-blue-400/30 rounded-sm group-hover:border-blue-400/60 transition-all duration-300"></div>
-
-                  {/* Floating icon */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center text-4xl opacity-40 group-hover:opacity-60 transition-opacity duration-300"
-                    animate={{ y: [0, -5, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    ✨
-                  </motion.div>
-
-                  {/* Glow effect on hover */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-300/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    animate={{ x: ['0%', '100%'] }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                  ></motion.div>
-                </motion.div>
-
-                {/* Polaroid text area removed - images only */}
+              <div className="w-full aspect-square bg-slate-900 rounded-lg shadow-lg transition-transform duration-400 transform-gpu group-hover:scale-110">
+                <img
+                  src={src}
+                  alt={`memory-${index + 1}`}
+                  className="w-full h-full object-cover rounded-lg block"
+                  loading="lazy"
+                />
+                {/* subtle glow */}
+                <div className="absolute inset-0 pointer-events-none rounded-lg bg-gradient-to-t from-transparent to-blue-500/8 opacity-0 group-hover:opacity-80 transition-opacity duration-300"></div>
               </div>
-
-              {/* Glow effect behind card */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-cyan-500/20 to-blue-500/0 rounded-lg blur-xl -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              ></motion.div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Note */}
+        {/* Small note for replacement instructions */}
         <motion.div
-          className="mt-16 text-center"
+          className="mt-10 text-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <p className="text-blue-200/70 italic">
-            Note: Add your favorite photos and memories here. Each moment is precious.
+          <p className="text-sm text-blue-200/60">
+            Replace placeholders in `src/data/galleryImages.js` with direct image URLs or local `/public/photos/` paths.
           </p>
         </motion.div>
       </div>
