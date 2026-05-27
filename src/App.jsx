@@ -8,6 +8,7 @@ import Gallery from './components/Gallery'
 import ElevenReasons from './components/ElevenReasons'
 import Closing from './components/Closing'
 import ParticlesBackground from './components/ParticlesBackground'
+import Footer from './components/Footer'
 
 function App() {
   useEffect(() => {
@@ -35,6 +36,7 @@ function App() {
         <Gallery />
         <ElevenReasons />
         <Closing />
+        <Footer />
       </div>
     </div>
   )
