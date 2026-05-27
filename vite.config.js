@@ -2,8 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  // Use project subpath for GitHub Pages
-  base: '/Diabadass/',
+  // Use relative base so built assets reference relative paths on GitHub Pages
+  base: './',
   plugins: [react()],
   server: {
     port: 3000,
