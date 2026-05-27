@@ -47,7 +47,8 @@ const Gallery = () => {
           {/* Main image display */}
           <motion.div
             key={currentIndex}
-            className="relative w-full aspect-video bg-slate-900 rounded-lg shadow-2xl overflow-hidden"
+            className="relative w-full bg-slate-900 rounded-lg shadow-2xl overflow-hidden flex items-center justify-center"
+            style={{ maxHeight: '600px' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -55,7 +56,7 @@ const Gallery = () => {
             <img
               src={images[currentIndex]}
               alt={`memory-${currentIndex + 1}`}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
               loading="lazy"
             />
             {/* Glow overlay */}
