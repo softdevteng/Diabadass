@@ -69,18 +69,7 @@ const Gallery = () => {
           ))}
         </motion.div>
 
-        {/* Small note for replacement instructions */}
-        <motion.div
-          className="mt-10 text-center"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <p className="text-sm text-blue-200/60">
-            Replace placeholders in `src/data/galleryImages.js` with direct image URLs or local `/public/photos/` paths.
-          </p>
-        </motion.div>
+        {/* (instructional note removed) */}
       </div>
     </section>
   )
